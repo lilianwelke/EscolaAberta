@@ -5,15 +5,13 @@ package model;
  * @author lw005973
  */
 public class Votantes {
-    private int voto;
-    // private Candidatos? cCandidato; 
+    private Eleitores eleitor;
 
-    public int getVoto() {
-        return voto;
+    public Eleitores getEleitor() {
+        return eleitor;
     }
 
-    public void setVoto(int voto) {
-        this.voto = voto;
+    public void setEleitor(Eleitores eleitor) {
+        this.eleitor = eleitor;
     }
-    
 }

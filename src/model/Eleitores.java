@@ -7,11 +7,19 @@ package model;
 public class Eleitores {
     private int cEleitores;
     private String nomeLeitor;
-    //private Char? cpf;
+    private String cpf;
     private String senha;
 
     public int getcEleitores() {
         return cEleitores;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     public void setcEleitores(int cEleitores) {
