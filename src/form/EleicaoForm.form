@@ -56,7 +56,6 @@
                                       </Group>
                                       <Component id="nome" min="-2" pref="182" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -86,9 +85,7 @@
                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="partido" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="179" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="confirma" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="branco" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -111,6 +108,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="numero">
+      <Events>
+        <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="numeroFocusLost"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
@@ -136,23 +136,25 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="CONFIRMA"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="jLabel6">
-      <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/form/candidato.jpg"/>
-        </Property>
-      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="confirmaActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="branco">
       <Properties>
         <Property name="text" type="java.lang.String" value="BRANCO"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="brancoActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="corrige">
       <Properties>
         <Property name="text" type="java.lang.String" value="CORRIGE"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="corrigeActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

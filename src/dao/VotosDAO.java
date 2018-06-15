@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Candidatos;
+import model.Partidos;
 import model.Votantes;
 import model.Votos;
 import util.ConnectionJDBC;
@@ -33,7 +34,7 @@ public class VotosDAO {
             p.setInt(2, voto.getcCandidato().getcCandidato());
             p.execute();
             p.close();
-            
+
             String SQL2 = "DELETE FROM VOTANTES WHERE CELEITOR=?";
             PreparedStatement p2 = connection.prepareStatement(SQL2);
             p2.setInt(1, votantes.getEleitor().getcEleitores());
@@ -42,6 +43,56 @@ public class VotosDAO {
         } catch (SQLException ex) {
             Logger.getLogger(VotosDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void saveBranco(Votos voto, Votantes votantes) {
+        String SQL = "INSERT INTO VOTOS(VOTO, CCANDIDATO) VALUES(?, ?) ";
+        try {
+            PreparedStatement p = connection.prepareStatement(SQL);
+            p.setInt(1, voto.getVoto());
+            p.setInt(2, 0);
+            p.execute();
+            p.close();
+
+            String SQL2 = "DELETE FROM VOTANTES WHERE CELEITOR=?";
+            PreparedStatement p2 = connection.prepareStatement(SQL2);
+            p2.setInt(1, votantes.getEleitor().getcEleitores());
+            p2.execute();
+            p2.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(VotosDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public Candidatos getByNum(int numCandidato) {
+        Candidatos objeto = new Candidatos();
+        String SQL = "SELECT CANDIDATO.NOMECANDIDATO, PARTIDO.NUMPARTIDO"
+                + " FROM CANDIDATOS"
+                + " INNER JOIN PARTIDO ON (PARTIDO.CPARTIDO = CANDIDATO.CPARTIDO)"
+                + " WHERE CANDIDATO.NUMCANDIDATO = ?";
+
+        try {
+            PreparedStatement p = connection.prepareStatement(SQL);
+            p.setInt(1, numCandidato);
+
+            ResultSet rs = p.executeQuery();
+
+            while (rs.next()) {
+                objeto = new Candidatos();
+                Partidos objeto2 = new Partidos();
+                objeto.setcCandidato(rs.getInt("CCANDIDATO"));
+                objeto.setNumCandidato(rs.getInt("NUMCANDIDATO"));
+                objeto.setNomeCandidato(rs.getString("NOMECANDIDATO"));
+                objeto2.setNumPartido(rs.getInt("NUMPARTIDO"));
+
+                objeto.setcPartido(objeto2);
+            }
+            rs.close();
+            p.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(VotosDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return objeto;
     }
 
     public List<Votos> findAll() throws Exception {
@@ -61,7 +112,7 @@ public class VotosDAO {
                 candidatos.setcCandidato(rs.getInt("CCANDIDATO"));
                 objeto.setcCandidato(candidatos);
                 list.add(objeto);
-                
+
                 //FAZER NOT IN(CÓDIGOS DOS CANDIDATOS)
             }
             rs.close();

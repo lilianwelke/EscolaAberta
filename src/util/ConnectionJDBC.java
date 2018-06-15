@@ -21,7 +21,7 @@ public class ConnectionJDBC {
             }
 
             String servidor = "localhost";
-            String database = "/databases/escolaaberta.fdb";
+            String database = "C:\\Users\\Gabriel\\Desktop\\escolaAberta.fdb";
             String user = "SYSDBA";
             String password = "masterkey";
             String url = "jdbc:firebirdsql:" + servidor + "/3050:" + database + "?encoding=WIN1252";

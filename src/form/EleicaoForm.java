@@ -5,6 +5,14 @@
  */
 package form;
 
+import dao.CandidatosDAO;
+import dao.VotosDAO;
+import javax.swing.JOptionPane;
+import model.Candidatos;
+import model.Partidos;
+import model.Votantes;
+import model.Votos;
+
 /**
  *
  * @author lw005973
@@ -16,6 +24,13 @@ public class EleicaoForm extends javax.swing.JFrame {
      */
     public EleicaoForm() {
         initComponents();
+        
+        try {
+            CandidatosDAO candidatosDAO = new CandidatosDAO();
+            VotosDAO votosDAO = new VotosDAO();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
     }
 
     /**
@@ -35,7 +50,6 @@ public class EleicaoForm extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         partido = new javax.swing.JTextField();
         confirma = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
         branco = new javax.swing.JButton();
         corrige = new javax.swing.JButton();
 
@@ -44,6 +58,12 @@ public class EleicaoForm extends javax.swing.JFrame {
         jLabel1.setText("ELEIÇÕES PRESIDENCIAIS - 2018");
 
         jLabel2.setText("Informe o Número do Candidato:");
+
+        numero.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                numeroFocusLost(evt);
+            }
+        });
 
         jLabel3.setText("Nome do Candidato:");
 
@@ -54,12 +74,25 @@ public class EleicaoForm extends javax.swing.JFrame {
         partido.setEnabled(false);
 
         confirma.setText("CONFIRMA");
-
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/form/candidato.jpg"))); // NOI18N
+        confirma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmaActionPerformed(evt);
+            }
+        });
 
         branco.setText("BRANCO");
+        branco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                brancoActionPerformed(evt);
+            }
+        });
 
         corrige.setText("CORRIGE");
+        corrige.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                corrigeActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -92,8 +125,7 @@ public class EleicaoForm extends javax.swing.JFrame {
                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                             .addComponent(partido, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGap(0, 0, Short.MAX_VALUE))
-                                        .addComponent(nome, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel6))))))
+                                        .addComponent(nome, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                 .addGap(21, 21, 21))
         );
         layout.setVerticalGroup(
@@ -113,9 +145,7 @@ public class EleicaoForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(partido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel6)
-                .addGap(30, 30, 30)
+                .addGap(179, 179, 179)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(confirma)
                     .addComponent(branco)
@@ -125,6 +155,33 @@ public class EleicaoForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void numeroFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_numeroFocusLost
+        Candidatos candidatos = new Candidatos();
+        Partidos partidos = new Partidos();
+        candidatos = votosDAO.getByNum(Integer.parseInt(numero.getText()));
+        
+        nome.setText(candidatos.getNomeCandidato());
+        partido.setText("" +partidos.getNumPartido());
+    }//GEN-LAST:event_numeroFocusLost
+
+    private void confirmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmaActionPerformed
+        Votos voto = new Votos();
+        Votantes votantes = new Votantes();
+        
+        votosDAO.save(voto, votantes);
+    }//GEN-LAST:event_confirmaActionPerformed
+
+    private void brancoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brancoActionPerformed
+        Votos voto = new Votos();
+        Votantes votantes = new Votantes();
+        
+        votosDAO.saveBranco(voto, votantes);
+    }//GEN-LAST:event_brancoActionPerformed
+
+    private void corrigeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_corrigeActionPerformed
+        numero.setText("");
+    }//GEN-LAST:event_corrigeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -161,6 +218,8 @@ public class EleicaoForm extends javax.swing.JFrame {
         });
     }
 
+    private VotosDAO votosDAO;
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton branco;
     private javax.swing.JButton confirma;
@@ -169,7 +228,6 @@ public class EleicaoForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JTextField nome;
     private javax.swing.JTextField numero;
     private javax.swing.JTextField partido;

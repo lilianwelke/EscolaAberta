@@ -26,7 +26,9 @@ public class CandidatosDAO {
     public List<Candidatos> findAll() throws Exception {
         List<Candidatos> list = new ArrayList<>();
         Candidatos objeto;
-        String SQL = "SELECT * FROM PARTIDOS ORDER BY CPARTIDO";
+        String SQL = "SELECT * FROM CANDIDATOS "
+                + " INNER JOIN PARTIDO ON (PARTIDO.CPARTIDO = CANDIDATOS.CPARTIDO)"
+                + " ORDER BY CCANDIDATO";
         
         try {
             PreparedStatement p = connection.prepareStatement(SQL);
