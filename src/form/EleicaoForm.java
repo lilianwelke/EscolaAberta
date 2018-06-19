@@ -27,7 +27,7 @@ public class EleicaoForm extends javax.swing.JFrame {
         
         try {
             CandidatosDAO candidatosDAO = new CandidatosDAO();
-            VotosDAO votosDAO = new VotosDAO();
+            votosDAO = new VotosDAO();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage());
         }

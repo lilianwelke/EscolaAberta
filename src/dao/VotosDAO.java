@@ -26,7 +26,14 @@ public class VotosDAO {
         connection = ConnectionJDBC.getConnection();
     }
 
+    //FAZER OUTRO METODO QUE RETORNA TRUE OU FALSE BASEADO NA PESQUISA QUE TEM A FK
+    public boolean verificaCodigo(){
+        //aqui vai a SQL
+        //LA NO EVENT DO FORM, CHAMA ESSE MÉTODO PARA VERIFICAR SE O CANDIDATO EXISTE, SE EXISTE O CÓDIGO É VALIDO
+        return false;
+    }
     public void save(Votos voto, Votantes votantes) {
+        
         String SQL = "INSERT INTO VOTOS(VOTO, CCANDIDATO) VALUES(?, ?) ";
         try {
             PreparedStatement p = connection.prepareStatement(SQL);
@@ -83,7 +90,10 @@ public class VotosDAO {
                 objeto.setcCandidato(rs.getInt("CCANDIDATO"));
                 objeto.setNumCandidato(rs.getInt("NUMCANDIDATO"));
                 objeto.setNomeCandidato(rs.getString("NOMECANDIDATO"));
+                
+                objeto2.setcPartido(rs.getInt("CPARTIDO"));
                 objeto2.setNumPartido(rs.getInt("NUMPARTIDO"));
+                objeto2.setNomePartido(rs.getString("NOMEPARTIDO"));
 
                 objeto.setcPartido(objeto2);
             }
