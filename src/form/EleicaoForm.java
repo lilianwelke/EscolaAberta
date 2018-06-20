@@ -24,7 +24,7 @@ public class EleicaoForm extends javax.swing.JFrame {
      */
     public EleicaoForm() {
         initComponents();
-        
+
         try {
             CandidatosDAO candidatosDAO = new CandidatosDAO();
             votosDAO = new VotosDAO();
@@ -160,23 +160,29 @@ public class EleicaoForm extends javax.swing.JFrame {
         Candidatos candidatos = new Candidatos();
         Partidos partidos = new Partidos();
         candidatos = votosDAO.getByNum(Integer.parseInt(numero.getText()));
-        
+
         nome.setText(candidatos.getNomeCandidato());
-        partido.setText("" +partidos.getNumPartido());
+        partido.setText("" + partidos.getNumPartido());
     }//GEN-LAST:event_numeroFocusLost
 
     private void confirmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmaActionPerformed
         Votos voto = new Votos();
         Votantes votantes = new Votantes();
-        
+        Candidatos candidatos = new Candidatos();
+        candidatos = votosDAO.verificaCodigo(Integer.parseInt(numero.getText()));
+        //if (candidatos) {
         votosDAO.save(voto, votantes);
+        //} else {
+        // votosDao.save(
     }//GEN-LAST:event_confirmaActionPerformed
 
     private void brancoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brancoActionPerformed
         Votos voto = new Votos();
         Votantes votantes = new Votantes();
-        
+
         votosDAO.saveBranco(voto, votantes);
+
+        //votosDAO.save(voto, votantes);
     }//GEN-LAST:event_brancoActionPerformed
 
     private void corrigeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_corrigeActionPerformed
@@ -190,7 +196,7 @@ public class EleicaoForm extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -219,7 +225,7 @@ public class EleicaoForm extends javax.swing.JFrame {
     }
 
     private VotosDAO votosDAO;
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton branco;
     private javax.swing.JButton confirma;

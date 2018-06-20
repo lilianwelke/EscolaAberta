@@ -27,15 +27,37 @@ public class VotosDAO {
     }
 
     //FAZER OUTRO METODO QUE RETORNA TRUE OU FALSE BASEADO NA PESQUISA QUE TEM A FK
-    public boolean verificaCodigo(){
+    public Candidatos verificaCodigo(int numCandidato) {
+        Candidatos objeto = new Candidatos();
+        String SQL = "SELECT CANDIDATOS.NUMCANDIDATO"
+                + " FROM CANDIDATOS"
+                + " WHERE CANDIDATOS.NUMCANDIDATO=?";
+
+        try {
+            PreparedStatement p = connection.prepareStatement(SQL);
+            p.setInt(1, numCandidato);
+            ResultSet rs = p.executeQuery();
+
+            while (rs.next()) {
+                objeto = new Candidatos();
+                objeto.setNumCandidato(rs.getInt("NUMCANDIDATO"));
+            }
+            rs.close();
+            p.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(VotosDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
         //aqui vai a SQL
         //LA NO EVENT DO FORM, CHAMA ESSE MÉTODO PARA VERIFICAR SE O CANDIDATO EXISTE, SE EXISTE O CÓDIGO É VALIDO
-        return false;
+        return objeto;
     }
+
     public void save(Votos voto, Votantes votantes) {
-        
+
         String SQL = "INSERT INTO VOTOS(VOTO, CCANDIDATO) VALUES(?, ?) ";
         try {
+            //if(voto.getcCandidato() == 0
             PreparedStatement p = connection.prepareStatement(SQL);
             p.setInt(1, voto.getVoto());
             p.setInt(2, voto.getcCandidato().getcCandidato());
@@ -70,7 +92,7 @@ public class VotosDAO {
             Logger.getLogger(VotosDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public Candidatos getByNum(int numCandidato) {
         Candidatos objeto = new Candidatos();
         String SQL = "SELECT CANDIDATO.NOMECANDIDATO, PARTIDO.NUMPARTIDO"
@@ -90,7 +112,7 @@ public class VotosDAO {
                 objeto.setcCandidato(rs.getInt("CCANDIDATO"));
                 objeto.setNumCandidato(rs.getInt("NUMCANDIDATO"));
                 objeto.setNomeCandidato(rs.getString("NOMECANDIDATO"));
-                
+
                 objeto2.setcPartido(rs.getInt("CPARTIDO"));
                 objeto2.setNumPartido(rs.getInt("NUMPARTIDO"));
                 objeto2.setNomePartido(rs.getString("NOMEPARTIDO"));
