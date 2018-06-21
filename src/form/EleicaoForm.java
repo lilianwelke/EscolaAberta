@@ -158,11 +158,10 @@ public class EleicaoForm extends javax.swing.JFrame {
 
     private void numeroFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_numeroFocusLost
         Candidatos candidatos = new Candidatos();
-        Partidos partidos = new Partidos();
         candidatos = votosDAO.getByNum(Integer.parseInt(numero.getText()));
 
         nome.setText(candidatos.getNomeCandidato());
-        partido.setText("" + partidos.getNumPartido());
+        partido.setText("" + candidatos.getcPartido().getNumPartido());
     }//GEN-LAST:event_numeroFocusLost
 
     private void confirmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmaActionPerformed
@@ -187,6 +186,8 @@ public class EleicaoForm extends javax.swing.JFrame {
 
     private void corrigeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_corrigeActionPerformed
         numero.setText("");
+        partido.setText("");
+        nome.setText("");
     }//GEN-LAST:event_corrigeActionPerformed
 
     /**

@@ -95,10 +95,10 @@ public class VotosDAO {
 
     public Candidatos getByNum(int numCandidato) {
         Candidatos objeto = new Candidatos();
-        String SQL = "SELECT CANDIDATO.NOMECANDIDATO, PARTIDO.NUMPARTIDO"
+        String SQL = "SELECT CANDIDATOS.*, PARTIDOS.*"
                 + " FROM CANDIDATOS"
-                + " INNER JOIN PARTIDO ON (PARTIDO.CPARTIDO = CANDIDATO.CPARTIDO)"
-                + " WHERE CANDIDATO.NUMCANDIDATO = ?";
+                + " INNER JOIN PARTIDOS ON (PARTIDOS.CPARTIDO = CANDIDATOS.CPARTIDO)"
+                + " WHERE CANDIDATOS.NUMCANDIDATO = ?";
 
         try {
             PreparedStatement p = connection.prepareStatement(SQL);
@@ -131,7 +131,7 @@ public class VotosDAO {
         List<Votos> list = new ArrayList<>();
         Votos objeto;
         String SQL = "SELECT * FROM VOTOS"
-                + "INNER JOIN CANDIDATOS ON (CANDIDATO.CCANDIDATO = VOTOS.CCANDIDATO)";
+                + "INNER JOIN CANDIDATOS ON (CANDIDATOS.CCANDIDATO = VOTOS.CCANDIDATO)";
 
         try {
             PreparedStatement p = connection.prepareStatement(SQL);
