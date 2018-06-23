@@ -9,7 +9,6 @@ import dao.CandidatosDAO;
 import dao.VotosDAO;
 import javax.swing.JOptionPane;
 import model.Candidatos;
-import model.Partidos;
 import model.Votantes;
 import model.Votos;
 
@@ -24,6 +23,7 @@ public class EleicaoForm extends javax.swing.JFrame {
      */
     public EleicaoForm() {
         initComponents();
+        this.setLocationRelativeTo(null);
 
         try {
             CandidatosDAO candidatosDAO = new CandidatosDAO();
@@ -54,6 +54,13 @@ public class EleicaoForm extends javax.swing.JFrame {
         corrige = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setPreferredSize(new java.awt.Dimension(500, 500));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("ELEIÇÕES PRESIDENCIAIS - 2018");
 
@@ -189,6 +196,12 @@ public class EleicaoForm extends javax.swing.JFrame {
         partido.setText("");
         nome.setText("");
     }//GEN-LAST:event_corrigeActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        this.setVisible(false);
+        LoginDialog login = new LoginDialog(this, true);
+        login.setVisible(true);
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
