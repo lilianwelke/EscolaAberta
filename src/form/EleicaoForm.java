@@ -7,6 +7,9 @@ package form;
 
 import dao.CandidatosDAO;
 import dao.VotosDAO;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import model.Candidatos;
 import model.Votantes;
@@ -164,31 +167,73 @@ public class EleicaoForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void numeroFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_numeroFocusLost
-        Candidatos candidatos = new Candidatos();
-        candidatos = votosDAO.getByNum(Integer.parseInt(numero.getText()));
-
-        nome.setText(candidatos.getNomeCandidato());
-        partido.setText("" + candidatos.getcPartido().getNumPartido());
+        try {
+            CandidatosDAO candidatosDao = new CandidatosDAO();
+            
+            ArrayList<Candidatos> candidatos = (ArrayList<Candidatos>) candidatosDao.findAll();
+        if (numero.getText().isEmpty()){
+            numero.setText("");
+            partido.setText("");
+            nome.setText("");
+        }
+        int nmr = 99;
+        try{
+            nmr = Integer.parseInt(numero.getText());
+        } catch(Exception ex){
+        }
+        for (Candidatos candidats : candidatos) {
+            if (candidats.getNumCandidato() == (nmr)) {
+                candidats = votosDAO.getByNum(nmr);
+                if(nmr != 99 && nmr != 0){
+                    nome.setText(candidats.getNomeCandidato());
+                    partido.setText("" + candidats.getcPartido().getNumPartido());
+                } else{
+                    nome.setText("");
+                    partido.setText("");
+                }
+                break;
+            }
+            else {
+                partido.setText("");
+                nome.setText("");
+            }
+        }
+        } catch (Exception ex) {
+            Logger.getLogger(EleicaoForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_numeroFocusLost
 
     private void confirmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmaActionPerformed
-        Votos voto = new Votos();
         Votantes votantes = new Votantes();
         Candidatos candidatos = new Candidatos();
-        candidatos = votosDAO.verificaCodigo(Integer.parseInt(numero.getText()));
-        //if (candidatos) {
-        votosDAO.save(voto, votantes);
-        //} else {
-        // votosDao.save(
+       
+        if(numero.getText().isEmpty()){
+            numero.setText(""+99);
+            partido.setText(""+99);
+            nome.setText("NULO");
+        } else if(!votosDAO.validaCodigo(Integer.parseInt(numero.getText()))){
+            numero.setText(""+99);
+            partido.setText(""+99);
+            nome.setText("NULO");
+        }
+         candidatos = votosDAO.verificaCodigo(Integer.parseInt(numero.getText()));
+        
+        votosDAO.save(candidatos, votantes);
+        
     }//GEN-LAST:event_confirmaActionPerformed
 
     private void brancoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brancoActionPerformed
-        Votos voto = new Votos();
         Votantes votantes = new Votantes();
 
-        votosDAO.saveBranco(voto, votantes);
+        if(numero.getText().isEmpty()){
+            numero.setText(""+0);
+            partido.setText(""+0);
+            nome.setText("BRANCO");
+        }
+        
+        votosDAO.saveBranco(votantes);
 
-        //votosDAO.save(voto, votantes);
     }//GEN-LAST:event_brancoActionPerformed
 
     private void corrigeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_corrigeActionPerformed
@@ -198,9 +243,9 @@ public class EleicaoForm extends javax.swing.JFrame {
     }//GEN-LAST:event_corrigeActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        this.setVisible(false);
-        LoginDialog login = new LoginDialog(this, true);
-        login.setVisible(true);
+//        this.setVisible(false);
+//        LoginDialog login = new LoginDialog(this, true);
+//        login.setVisible(true);
     }//GEN-LAST:event_formWindowOpened
 
     /**

@@ -26,8 +26,9 @@ public class CandidatosDAO {
     public List<Candidatos> findAll() throws Exception {
         List<Candidatos> list = new ArrayList<>();
         Candidatos objeto;
+        Partidos objeto2;
         String SQL = "SELECT * FROM CANDIDATOS "
-                + " INNER JOIN PARTIDO ON (PARTIDO.CPARTIDO = CANDIDATOS.CPARTIDO)"
+                + " INNER JOIN PARTIDOS ON (PARTIDOS.CPARTIDO = CANDIDATOS.CPARTIDO)"
                 + " ORDER BY CCANDIDATO";
         
         try {
@@ -35,11 +36,15 @@ public class CandidatosDAO {
             ResultSet rs = p.executeQuery();
             while (rs.next()) {
                 objeto = new Candidatos();
+                objeto2 = new Partidos();
                 objeto.setcCandidato(rs.getInt("CCANDIDATO"));
                 objeto.setNumCandidato(rs.getInt("NUMCANDIDATO"));
                 objeto.setNomeCandidato(rs.getString("NOMECANDIDATO"));
                 
-                objeto.setcPartido(partidoDAO.findById((rs.getInt("CPARTIDO"))));
+                objeto2.setcPartido(rs.getInt("CPARTIDO"));
+                objeto2.setNumPartido(rs.getInt("NUMPARTIDO"));
+                objeto2.setNomePartido(rs.getString("NOMEPARTIDO"));
+                objeto.setcPartido(objeto2);
                 list.add(objeto);
             }
             rs.close();

@@ -25,12 +25,32 @@ public class VotosDAO {
     public VotosDAO() throws Exception {
         connection = ConnectionJDBC.getConnection();
     }
+    
+    public boolean validaCodigo(int numCandidato){
+        Candidatos objeto = new Candidatos();
+        Partidos objeto2 = new Partidos();
+        String SQL = "SELECT CANDIDATOS.CCANDIDATO"
+                + " FROM CANDIDATOS"
+                + " WHERE CANDIDATOS.NUMCANDIDATO=?";
+
+        try {
+            PreparedStatement p = connection.prepareStatement(SQL);
+            p.setInt(1, numCandidato);
+            ResultSet rs = p.executeQuery();
+            return rs.next();
+        } catch (SQLException ex) {
+            Logger.getLogger(VotosDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
+    }
 
     //FAZER OUTRO METODO QUE RETORNA TRUE OU FALSE BASEADO NA PESQUISA QUE TEM A FK
     public Candidatos verificaCodigo(int numCandidato) {
         Candidatos objeto = new Candidatos();
-        String SQL = "SELECT CANDIDATOS.NUMCANDIDATO"
+        Partidos objeto2 = new Partidos();
+        String SQL = "SELECT CANDIDATOS.NUMCANDIDATO, CANDIDATOS.CCANDIDATO, CANDIDATOS.NOMECANDIDATO, PARTIDOS.CPARTIDO, PARTIDOS.NUMPARTIDO, PARTIDOS.NOMEPARTIDO"
                 + " FROM CANDIDATOS"
+                + " INNER JOIN PARTIDOS ON (PARTIDOS.CPARTIDO = CANDIDATOS.CPARTIDO)"
                 + " WHERE CANDIDATOS.NUMCANDIDATO=?";
 
         try {
@@ -39,8 +59,14 @@ public class VotosDAO {
             ResultSet rs = p.executeQuery();
 
             while (rs.next()) {
-                objeto = new Candidatos();
+                objeto.setcCandidato(rs.getInt("CCANDIDATO"));
                 objeto.setNumCandidato(rs.getInt("NUMCANDIDATO"));
+                objeto.setNomeCandidato(rs.getString("NOMECANDIDATO"));
+
+                objeto2.setcPartido(rs.getInt("CPARTIDO"));
+                objeto2.setNumPartido(rs.getInt("NUMPARTIDO"));
+                objeto2.setNomePartido(rs.getString("NOMEPARTIDO"));
+                objeto.setcPartido(objeto2);
             }
             rs.close();
             p.close();
@@ -53,14 +79,12 @@ public class VotosDAO {
         return objeto;
     }
 
-    public void save(Votos voto, Votantes votantes) {
+    public void save(Candidatos candidatos, Votantes votantes) {
 
-        String SQL = "INSERT INTO VOTOS(VOTO, CCANDIDATO) VALUES(?, ?) ";
+        String SQL = "INSERT INTO VOTOS(CCANDIDATO) VALUES(?) ";
         try {
-            //if(voto.getcCandidato() == 0
             PreparedStatement p = connection.prepareStatement(SQL);
-            p.setInt(1, voto.getVoto());
-            p.setInt(2, voto.getcCandidato().getcCandidato());
+            p.setInt(1, candidatos.getcCandidato());
             p.execute();
             p.close();
 
@@ -74,12 +98,11 @@ public class VotosDAO {
         }
     }
 
-    public void saveBranco(Votos voto, Votantes votantes) {
-        String SQL = "INSERT INTO VOTOS(VOTO, CCANDIDATO) VALUES(?, ?) ";
+    public void saveBranco(Votantes votantes) {
+        String SQL = "INSERT INTO VOTOS(CCANDIDATO) VALUES(?) ";
         try {
             PreparedStatement p = connection.prepareStatement(SQL);
-            p.setInt(1, voto.getVoto());
-            p.setInt(2, 0);
+            p.setInt(1, 0);
             p.execute();
             p.close();
 

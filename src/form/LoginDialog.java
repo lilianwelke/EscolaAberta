@@ -120,7 +120,7 @@ public class LoginDialog extends javax.swing.JDialog {
 
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
         EleicaoForm eleicao = new EleicaoForm();
-        boolean usuarioCorreto = false;
+        String usuarioCorreto = "false";
         try {
             EleitoresDAO eleitoresDao = new EleitoresDAO();
             ArrayList<Eleitores> eleitores = (ArrayList<Eleitores>) eleitoresDao.findAll();
@@ -128,23 +128,32 @@ public class LoginDialog extends javax.swing.JDialog {
             ArrayList<Votantes> votantes = (ArrayList<Votantes>) votantesDao.findAll();
 
             for (Eleitores eleitors : eleitores) {
-                if ((eleitors.getCpf().equals(cpf.getText())) && (eleitors.getSenha().equals(senha.getPassword()))) {
+                if ((eleitors.getCpf().equals(cpf.getText())) && (eleitors.getSenha().equals(senha.getText()))) {
+                    
                     for (Votantes votants : votantes) {
-                        if (votants.getEleitor().equals(eleitors.getcEleitores())) {
-                            usuarioCorreto = true;
+                        if (votants.getEleitor().getcEleitores() == eleitors.getcEleitores()) {
+                            usuarioCorreto = "certo";
+                            break;
                         } else {
-                            JOptionPane.showMessageDialog(null, "Eleitor já votou!", "Aviso", JOptionPane.WARNING_MESSAGE);
+                            usuarioCorreto = "javotou";
                         }
                     }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos!", "Falha para autenticar", JOptionPane.WARNING_MESSAGE);
-                    cpf.setText("");
-                    senha.setText("");
                 }
             }
-            if (usuarioCorreto) {
+            
+            if (usuarioCorreto.equals("certo")) {
                 this.setVisible(false);
                 eleicao.setVisible(true);
+            } else {
+                cpf.setText("");
+                senha.setText("");
+                if (usuarioCorreto.equals("javotou")){
+                JOptionPane.showMessageDialog(null, "Eleitor já votou!", "Aviso", JOptionPane.WARNING_MESSAGE);
+                } else {
+                JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos!", "Falha para autenticar", JOptionPane.WARNING_MESSAGE);
+                }
+            //} else {
+                
             }
         } catch (Exception ex) {
             Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);

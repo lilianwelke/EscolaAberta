@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.Eleitores;
 import model.Votantes;
 import util.ConnectionJDBC;
 
@@ -24,14 +25,17 @@ public class VotantesDAO {
     public List<Votantes> findAll() throws Exception {
         List<Votantes> list = new ArrayList<>();
         Votantes objeto;
-        String SQL = "SELECT * FROM VOTANTES ORDER BY CVOTANTES";
+        Eleitores objeto2;
+        String SQL = "SELECT * FROM VOTANTES ORDER BY CELEITOR";
 
         try {
             PreparedStatement p = connection.prepareStatement(SQL);
             ResultSet rs = p.executeQuery();
             while (rs.next()) {
                 objeto = new Votantes();
-                //objeto.setEleitor(rs.getInt("CELEITOR"));
+                objeto2 = new Eleitores();
+                objeto2.setcEleitores(rs.getInt("CELEITOR"));
+                objeto.setEleitor(objeto2);
                 list.add(objeto);
             }
             rs.close();
