@@ -121,6 +121,7 @@ public class LoginDialog extends javax.swing.JDialog {
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
         EleicaoForm eleicao = new EleicaoForm();
         String usuarioCorreto = "false";
+        int celeitor = 0;
         try {
             EleitoresDAO eleitoresDao = new EleitoresDAO();
             ArrayList<Eleitores> eleitores = (ArrayList<Eleitores>) eleitoresDao.findAll();
@@ -133,6 +134,7 @@ public class LoginDialog extends javax.swing.JDialog {
                     for (Votantes votants : votantes) {
                         if (votants.getEleitor().getcEleitores() == eleitors.getcEleitores()) {
                             usuarioCorreto = "certo";
+                            celeitor = votants.getEleitor().getcEleitores();
                             break;
                         } else {
                             usuarioCorreto = "javotou";
@@ -144,6 +146,7 @@ public class LoginDialog extends javax.swing.JDialog {
             if (usuarioCorreto.equals("certo")) {
                 this.setVisible(false);
                 eleicao.setVisible(true);
+                eleicao.setCeleitor(celeitor);
             } else {
                 cpf.setText("");
                 senha.setText("");

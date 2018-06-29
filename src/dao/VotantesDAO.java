@@ -46,4 +46,31 @@ public class VotantesDAO {
         }
         return list;
     }
+    
+    public Votantes findById(int num) throws Exception {
+        List<Votantes> list = new ArrayList<>();
+        Votantes objeto = null;
+        Eleitores objeto2;
+        String SQL = "SELECT * FROM VOTANTES "
+                + " WHERE VOTANTES.CELEITOR = " + num
+                + "ORDER BY CELEITOR";
+
+        try {
+            PreparedStatement p = connection.prepareStatement(SQL);
+            ResultSet rs = p.executeQuery();
+            while (rs.next()) {
+                objeto = new Votantes();
+                objeto2 = new Eleitores();
+                objeto2.setcEleitores(rs.getInt("CELEITOR"));
+                objeto.setEleitor(objeto2);
+                list.add(objeto);
+            }
+            rs.close();
+            p.close();
+
+        } catch (SQLException ex) {
+            throw new Exception(ex);
+        }
+        return objeto;
+    }
 }

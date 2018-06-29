@@ -6,6 +6,7 @@
 package form;
 
 import dao.CandidatosDAO;
+import dao.VotantesDAO;
 import dao.VotosDAO;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -31,6 +32,7 @@ public class EleicaoForm extends javax.swing.JFrame {
         try {
             CandidatosDAO candidatosDAO = new CandidatosDAO();
             votosDAO = new VotosDAO();
+            votantesDAO = new VotantesDAO();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage());
         }
@@ -218,13 +220,20 @@ public class EleicaoForm extends javax.swing.JFrame {
             nome.setText("NULO");
         }
          candidatos = votosDAO.verificaCodigo(Integer.parseInt(numero.getText()));
-        
+        try {
+            votantes = votantesDAO.findById(celeitor);
+        } catch (Exception ex) {
+            Logger.getLogger(EleicaoForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
         votosDAO.save(candidatos, votantes);
+        JOptionPane o = new JOptionPane("Voto realizado com sucesso!");
         
     }//GEN-LAST:event_confirmaActionPerformed
 
     private void brancoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brancoActionPerformed
         Votantes votantes = new Votantes();
+        Candidatos candidatos = new Candidatos();
 
         if(numero.getText().isEmpty()){
             numero.setText(""+0);
@@ -232,8 +241,18 @@ public class EleicaoForm extends javax.swing.JFrame {
             nome.setText("BRANCO");
         }
         
+        candidatos = votosDAO.verificaCodigo(Integer.parseInt(numero.getText()));
+        try {
+            votantes = votantesDAO.findById(celeitor);
+        } catch (Exception ex) {
+            Logger.getLogger(EleicaoForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+        
         votosDAO.saveBranco(votantes);
 
+        
+        JOptionPane o = new JOptionPane("Voto realizado com sucesso!");
     }//GEN-LAST:event_brancoActionPerformed
 
     private void corrigeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_corrigeActionPerformed
@@ -283,7 +302,14 @@ public class EleicaoForm extends javax.swing.JFrame {
         });
     }
 
+    private int celeitor;
+
+    public void setCeleitor(int numero) {
+        this.celeitor = numero;
+    }
+    
     private VotosDAO votosDAO;
+    private VotantesDAO votantesDAO;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton branco;
