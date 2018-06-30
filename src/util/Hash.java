@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  */
 public class Hash {
     
-    public void criptografar(){
+    public static String criptografar(String senha){
         MessageDigest algorithm = null;
         try
         {
@@ -28,15 +28,16 @@ public class Hash {
         byte messageDigest[] = null;
         try
         {
-            messageDigest = algorithm.digest("senha".getBytes("UTF-8"));
+            messageDigest = algorithm.digest(senha.getBytes("UTF-8"));
         } catch (UnsupportedEncodingException ex)
         {
             ex.getMessage();
         }
         StringBuilder hexString = new StringBuilder();
         for (byte b : messageDigest) {
-        hexString.append(String.format("%02X", 0xFF & b));
+            hexString.append(String.format("%02X", 0xFF & b));
         }
-        String senha = hexString.toString();
+        String senhaCriptografada = hexString.toString();
+        return senhaCriptografada;
     }
 }

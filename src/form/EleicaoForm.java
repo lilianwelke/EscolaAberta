@@ -227,7 +227,8 @@ public class EleicaoForm extends javax.swing.JFrame {
         }
          
         votosDAO.save(candidatos, votantes);
-        JOptionPane o = new JOptionPane("Voto realizado com sucesso!");
+        JOptionPane.showMessageDialog(null, "Voto realizado com sucesso!", "Aviso", JOptionPane.WARNING_MESSAGE);
+        System.exit(0);
         
     }//GEN-LAST:event_confirmaActionPerformed
 
@@ -252,7 +253,8 @@ public class EleicaoForm extends javax.swing.JFrame {
         votosDAO.saveBranco(votantes);
 
         
-        JOptionPane o = new JOptionPane("Voto realizado com sucesso!");
+        JOptionPane.showMessageDialog(null, "Voto realizado com sucesso!", "Aviso", JOptionPane.WARNING_MESSAGE);
+        System.exit(0);
     }//GEN-LAST:event_brancoActionPerformed
 
     private void corrigeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_corrigeActionPerformed

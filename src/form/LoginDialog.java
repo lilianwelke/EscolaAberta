@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import model.Eleitores;
 import model.Votantes;
+import util.Hash;
 
 /**
  *
@@ -129,17 +130,16 @@ public class LoginDialog extends javax.swing.JDialog {
             ArrayList<Votantes> votantes = (ArrayList<Votantes>) votantesDao.findAll();
 
             for (Eleitores eleitors : eleitores) {
-                if ((eleitors.getCpf().equals(cpf.getText())) && (eleitors.getSenha().equals(senha.getText()))) {
+                if ((eleitors.getCpf().equals(cpf.getText())) && (eleitors.getSenha().equals(Hash.criptografar(senha.getText())))) {
                     
                     for (Votantes votants : votantes) {
                         if (votants.getEleitor().getcEleitores() == eleitors.getcEleitores()) {
                             usuarioCorreto = "certo";
                             celeitor = votants.getEleitor().getcEleitores();
                             break;
-                        } else {
-                            usuarioCorreto = "javotou";
                         }
                     }
+                    usuarioCorreto = "javotou";
                 }
             }
             
@@ -151,9 +151,9 @@ public class LoginDialog extends javax.swing.JDialog {
                 cpf.setText("");
                 senha.setText("");
                 if (usuarioCorreto.equals("javotou")){
-                JOptionPane.showMessageDialog(null, "Eleitor já votou!", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Eleitor já votou!", "Aviso", JOptionPane.WARNING_MESSAGE);
                 } else {
-                JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos!", "Falha para autenticar", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos!", "Falha para autenticar", JOptionPane.WARNING_MESSAGE);
                 }
             //} else {
                 
