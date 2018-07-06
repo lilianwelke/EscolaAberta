@@ -1,17 +1,26 @@
 package model;
 
-import java.sql.Blob;
+import java.io.File;
 
 /**
  *
  * @author lw005973
  */
 public class Candidatos {
+
     private int cCandidato;
     private int numCandidato;
     private String nomeCandidato;
     private Partidos cPartido;
-    private Blob fotoCandidato;
+    private File fotoCandidato;
+
+    public File getFotoCandidato() {
+        return fotoCandidato;
+    }
+
+    public void setFotoCandidato(File fotoCandidato) {
+        this.fotoCandidato = fotoCandidato;
+    }
 
     public int getcCandidato() {
         return cCandidato;
@@ -45,12 +54,4 @@ public class Candidatos {
         this.cPartido = cPartido;
     }
 
-    public Blob getFotoCandidato() {
-        return fotoCandidato;
-    }
-
-    public void setFotoCandidato(Blob fotoCandidato) {
-        this.fotoCandidato = fotoCandidato;
-    }
-    
 }

@@ -8,9 +8,11 @@ package form;
 import dao.CandidatosDAO;
 import dao.VotantesDAO;
 import dao.VotosDAO;
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import model.Candidatos;
 import model.Votantes;
@@ -57,6 +59,7 @@ public class EleicaoForm extends javax.swing.JFrame {
         confirma = new javax.swing.JButton();
         branco = new javax.swing.JButton();
         corrige = new javax.swing.JButton();
+        foto = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -106,30 +109,33 @@ public class EleicaoForm extends javax.swing.JFrame {
             }
         });
 
+        foto.setText("jLabel5");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(foto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(118, 118, 118)
                         .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(19, 19, 19)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(39, 39, 39)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                                 .addComponent(branco)
                                 .addGap(37, 37, 37)
                                 .addComponent(corrige)
                                 .addGap(30, 30, 30)
                                 .addComponent(confirma))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel3))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(numero, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -157,7 +163,9 @@ public class EleicaoForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(partido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(179, 179, 179)
+                .addGap(33, 33, 33)
+                .addComponent(foto, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(confirma)
                     .addComponent(branco)
@@ -189,10 +197,14 @@ public class EleicaoForm extends javax.swing.JFrame {
                 if(nmr != 99 && nmr != 0){
                     nome.setText(candidats.getNomeCandidato());
                     partido.setText("" + candidats.getcPartido().getNumPartido());
+//                    Blob blob = candidats.getFotoCandidato();
+//                    ImageIcon imageIcon = new ImageIcon(blob.getBytes(1, (int) blob.length()));
+//                    foto.setIcon(imageIcon);
                 } else{
                     nome.setText("");
                     partido.setText("");
                 }
+                
                 break;
             }
             else {
@@ -317,6 +329,7 @@ public class EleicaoForm extends javax.swing.JFrame {
     private javax.swing.JButton branco;
     private javax.swing.JButton confirma;
     private javax.swing.JButton corrige;
+    private javax.swing.JLabel foto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
